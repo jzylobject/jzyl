@@ -317,7 +317,7 @@ class RewardsPoolController extends AgentController
             ],
             'platformprofitability' => [
                 'key' => 'platformprofitability',
-                'title' => '平台盈利',
+                'title' => '机器人输赢总额',
             ],
             'sumgamewinmoney' => [
                 'key' => 'sumgamewinmoney',
