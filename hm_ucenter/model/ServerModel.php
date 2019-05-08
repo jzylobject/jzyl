@@ -13,7 +13,7 @@ use manager\RedisManager;
  */
 class ServerModel extends AppModel
 {
-    const LOGON_SERVER_COUNT = 3;
+    const LOGON_SERVER_COUNT = 10;
 
     private static $_instance = null;
 
