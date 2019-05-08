@@ -6,6 +6,7 @@ use helper\FunctionHelper;
 use model\AgentModel;
 use model\AppModel;
 use model\ServerModel;
+use helper\LogHelper;
 
 /**
  * 服务器业务
@@ -48,6 +49,7 @@ class ServerAction extends AppAction
         $curPeople = array_column($logonServerList, 'curPeople');
         // 排序
         array_multisort($curPeople, SORT_ASC, $logonServerList);
+        LogHelper::printLog('TEXT', '参数123345'.json_encode($logonServerList[0]));
         AppModel::returnJson(ErrorConfig::SUCCESS_CODE, ErrorConfig::SUCCESS_MSG_DEFAULT, $logonServerList[0]);
     }
 
