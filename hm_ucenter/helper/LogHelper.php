@@ -380,7 +380,7 @@ final class LogHelper
     public static function pushSpeech()
     {
         // 指明给谁推送，为空表示向所有在线用户推送
-        $to_uid = "1111";
+        $to_uid = "";
         // 推送的url地址，使用自己的服务器地址
         //$push_api_url = "http://huo.qq:2121/";
         $push_api_url = "http://47.244.120.27:2121/";
@@ -389,6 +389,7 @@ final class LogHelper
             "content" => "这个是推送的测试数据",
             "to" => $to_uid,
         );
+        self::writeLog(self::TAG_COST, '123已经推送数据!');
         $ch = curl_init ();
         curl_setopt ( $ch, CURLOPT_URL, $push_api_url );
         curl_setopt ( $ch, CURLOPT_POST, 1 );
