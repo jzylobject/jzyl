@@ -353,6 +353,18 @@ class UserController extends AdminController
         $this->assign([
             'leftBar' => \config\EnumConfig::E_AdminPageHideType['LEFT_BAR'],
         ]);
+
+        $user['status_desc'] = '';
+        foreach (EnumConfig::E_UserStatusTypeName as $s_key => $s_value) {
+            if ($s_key != EnumConfig::E_UserStatusType['NONE'] && ($user['status'] & $s_key) == $s_key) {
+                $user['status_desc'] .= $s_value . '|';
+            }
+        }
+        $user['status_desc'] = rtrim($user['status_desc'], '|');
+        $especialIdentityInfo = RedisManager::getGameRedis()->hGetAll("especialIdentityUser|".$userID);
+        $user['curWinMoney'] = $especialIdentityInfo['curWinMoney']/100;
+        $user['moneyLimit'] = $especialIdentityInfo['moneyLimit']/100;
+
         $this->assign('user', $user);
         $this->assign('user_operation', $user_operation);
         $this->display();
@@ -1660,7 +1672,7 @@ class UserController extends AdminController
             if ($otherValue > 0) {
                 $otherValue = $otherValue * 24 * 3600;
             }
-            CenterNotify::userStatus($userID, $type, $statusValue, $otherValue, $moneyLimit);
+            CenterNotify::userStatus($userID, $type, $statusValue, $otherValue, $moneyLimit*100);
             $this->success('设置成功');
         } else {
             //获取我的身份
@@ -1680,6 +1692,7 @@ class UserController extends AdminController
             }
             $user['status_desc'] = rtrim($user['status_desc'], '|');
             $info = RedisManager::getGameRedis()->hGetAll('especialIdentityUser|'.$userID);
+            $info['moneyLimit'] = $info['moneyLimit']/100;
             $this->assign("info",$info);
             $this->assign("user", $user);
             $this->assign('userid', $userID);
